@@ -42,10 +42,17 @@ pipeline {
             steps {
                 pwsh"""
                 Set-Location \$env:windows_automation_dir
+                \$folder = "./venv"
+                if (Test-Path -Path \$Folder) {
+                "Path exists!"
+                } else {
+                "Path doesn't exist."
                 ./setup_venv.ps1
                 ./activate_venv.ps1
                 ./upgrade_pip.ps1
                 ./install_requirements.ps1
+                }
+                ./activate_venv.ps1
                 ./run_read_email.ps1
                 Get-Process java
                 """
